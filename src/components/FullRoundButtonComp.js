@@ -1,9 +1,9 @@
 import { View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-export default function FullRoundButtonComp({image, bg}) {
+export default function FullRoundButtonComp({image, bg, onPress}) {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => onPress()}>
       <View
       style={{
         backgroundColor: bg,

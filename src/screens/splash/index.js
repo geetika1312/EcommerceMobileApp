@@ -4,7 +4,7 @@ const image = require('../../assests/splashBg.png')
 
 export default function SplashScreen({navigation}) {
     setTimeout(()=>{
-        navigation.navigate('Signin')
+        navigation.replace('Signin')
     },2000);
 
   return (
