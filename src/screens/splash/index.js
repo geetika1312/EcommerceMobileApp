@@ -1,11 +1,22 @@
 import { View, Text, ImageBackground } from 'react-native'
 import React from 'react';
+import { _getFromAsyncStorage } from '../../config/asyncStorage';
 const image = require('../../assests/splashBg.png')
 
 export default function SplashScreen({navigation}) {
     setTimeout(()=>{
-        navigation.replace('Signin')
+        checkUser();
+        // navigation.replace('Signin')
     },2000);
+
+    async function checkUser(){
+        const value = await _getFromAsyncStorage('user');
+        if(!value){
+            navigation.replace('Signin')
+        } else {
+            navigation.replace('Welcome')
+        }
+    }
 
   return (
     <ImageBackground 

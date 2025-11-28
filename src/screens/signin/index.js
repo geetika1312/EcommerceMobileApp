@@ -3,6 +3,9 @@ import React from 'react';
 import RoundButtonComp from '../../components/RoundButtonComp';
 import FullRoundButtonComp from '../../components/FullRoundButtonComp';
 import { _signInWithGoogle } from '../../config/firebase/GoogleSignin';
+import {axiosClient} from '../../config/api';
+import {SIGN_IN} from '../../config/api';
+import {_storeIntoAsyncStorage} from '../../config/asyncStorage';
 
 const imageSigninBg = require('../../assests/signinBg.jpg');
 const imageFacebookBg = require('../../assests/facebook.png');
@@ -11,6 +14,27 @@ const imageLinkedinBg = require('../../assests/linkedin.png');
 
 
 export default function SigninScreen({ navigation }) {
+
+  const [loading, setLoading] = React.useState(false);
+
+  async function _sign_in_api(googleData) {
+    console.log('Signed in with Google!', googleData.uid);
+    setLoading(true);
+    const apiParams = {
+      loginSource: 'google',
+      sid: googleData.uid,
+      name: googleData.displayName,
+      email: googleData.email,
+      profileImage: googleData.photoURL,
+      fcmToken: 'fcm_110220'
+    }
+    const {data, status} = await axiosClient.post(SIGN_IN, apiParams)
+    setLoading(false);
+    if(status == 200){
+      _storeIntoAsyncStorage("user", JSON.stringify(data))
+      navigation.navigate('Welcome');
+    }
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -77,7 +101,9 @@ export default function SigninScreen({ navigation }) {
           <FullRoundButtonComp
             image={imageGoogleBg}
             bg={'#e54545'}
-            onPress={() => _signInWithGoogle().then(() => console.log('Signed in with Google!'))}
+            onPress={() => _signInWithGoogle().then((data) => {
+              _sign_in_api(data);
+            })}
           />
 
           <FullRoundButtonComp

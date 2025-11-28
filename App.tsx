@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import SplashScreen from "./src/screens/splash";
 import SigninScreen from "./src/screens/signin";
 import SignUpScreen from "./src/screens/signUp";
+import WelcomeScreen from "./src/screens/welcome";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -26,6 +27,7 @@ export default function App() {
           <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="Signin" component={SigninScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
